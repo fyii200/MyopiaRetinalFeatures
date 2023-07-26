@@ -1,47 +1,47 @@
-## Relative importance of different optic disc and foveal parameters in the prediction of refractive error
+## Relative importance of different optic disc (OD) and foveal parameters in the prediction of refractive error
 Anonymised imaging data derived from colour fundus photographs and other relevant variables can be found in the 'data' directory (*derivedDataAnonymised.csv*). The dataset contans 374 rows and 40 columns. Each row corresponds to an eye from a unique individual. The codebook below summarises the content of the dataset:
 
 | Column name | Data type | What it represents |
 | :---:   | :---: | :---: |
-| **name** | Integer | Each integer represents one of the 28 studies (papers) included in the meta-regression.   |
-| **age** | Integer | Each integer represents one of the 26 unique datasets used by the included studies. Martinez et al. and Philip et al. worked with Sydney Myopia Study data, while Li et al. and Li et al. worked with Anyang Childhood Eye Study data. Data from different age groups were used. |
-| **ser** | Character | Last name of first author and year of publication. |
-| **cr** | Character | Full title.  |
-| **sph** | Character | Country or city in which the participants were recruited. Note: "hk" refers to Hong Kong.  |
-| **cyl** | Character | Study design where "cs" refers to cross-sectional, while "long" refers to longitudinal. |
-| **dist** | Integer | Number of eyes. |
-| **adj_dist** | Integer | Number of females (if provided). |
-| **vertical_angle** | Integer | Number of males (if provided). |
-| **od_area** | Numeric | Mean axial length (specific to emmetropes).  |
-| **adj_od_area** | Numeric | Standard deviation of axial length (specific to emmetropes) |
-| **major_length** | Numeric | Mean sample age (specific to emmetropes)   |
-| **adj_major_length** | Numeric | Standard deviation of sample age (specific to emmetropes)   |
-| **minor_length** | Character | Optical biometry: IOLMaster or Lenstar |
-| **adj_minor_length** | Boolean (y/n) | If "y", cycloplegic refraction was performed; if "n" non-cycloplegic refraction was performed.   |
-| **macula_intensity** | Numeric | Mean spherical equivalent refraction, SER (specific to emmetropes, if provided).  |
-| **macula_intensity_R** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **macula_intensity_G** | Numeric (range) | Definition of emmetropia: ±0.50D SER; -0.25D to +0.50D SER; -0.25D to +0.75D SER; -0.25D to +1.25D SER; -0.50D to +0.75D SER; -0.50D to +1.00D SER; -0.50D to +1.25D; ±0.50D spherical power. |
-| **macula_intensity_B** | Integer | 1 to 8 where each number corresponds to each definition of emmetropia (**emm_def**) following the order specified above. |
-| **scaled_macula_intensity** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **scaled_macula_intensity_R** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **scaled_macula_intensity_G** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **scaled_macula_intensity_B** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **median_intensity_R** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **median_intensity_G** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **median_intensity_B** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **median_intensity** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **orientation** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **disc_x** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **disc_y** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **macula_x** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **macula_y** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **sex** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **VA** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **cataract** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **diabetic_eye** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **md** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **ethnicity** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **glaucoma** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
-| **eye** | Numeric | Standard deviation of spherical equivalent refraction, SER (specific to emmetropes, if provided).   |
+| **name** | Integer | Index corresponds to each image/individual |
+| **age** | Integer | Age at the time of data collection (including image acquisition) |
+| **ser** | Numeric | Spherical equivalent refraction (autorefraction) in dioptres, i.e. sph + 0.5*cyl |
+| **cr** | Numeric | Mean of corneal radius in the strongest and weakest meridians (mm) |
+| **sph** | Numeric | Spherical power (dioptres)  |
+| **cyl** | Numeric | Cylindrical power (dioptres) |
+| **dist** | Numeric | Distance between OD and fovea in pixels |
+| **adj_dist** | Numeric | Distance between OD and fovea in pixels adjusted for the effect of magnification due to ametropia |
+| **vertical_angle** | Numeric | Angle between OD and fovea |
+| **od_area** | Numeric | Area of OD (total number of pixels)  |
+| **adj_od_area** | Numeric | Area of OD (total number of pixels) adjusted for the effect of magnification due to ametropia |
+| **major_length** | Numeric | OD major axis length (pixels) |
+| **adj_major_length** | Numeric | OD major axis length (pixels) adjusted for the effect of magnification due to ametropia |
+| **minor_length** | Numeric | OD minor axis length (pixels) |
+| **adj_minor_length** | Numeric | OD minor axis length (pixels) adjusted for the effect of magnification due to ametropia |
+| **macula_intensity** | Numeric | Median pixel intensity (grayscale) of central macula (fovea)  |
+| **macula_intensity_R** | Numeric | Median pixel intensity of central macula (fovea) in the red channel |
+| **macula_intensity_G** | Numeric | Median pixel intensity of central macula (fovea) in the green channel |
+| **macula_intensity_B** | Numeric | Median pixel intensity of central macula (fovea) in the green channel |
+| **scaled_macula_intensity** | Numeric | Median pixel intensity (grayscale) of central macula (fovea) adjusted for background intensity of the entire grayscale image |
+| **scaled_macula_intensity_R** | Numeric | Median pixel intensity of central macula (fovea) in the red channel adjusted for background intensity of the entire image in the red channel |
+| **scaled_macula_intensity_G** | Numeric | Median pixel intensity of central macula (fovea) in the red channel adjusted for background intensity of the entire image in the green channel |
+| **scaled_macula_intensity_B** | Numeric | Median pixel intensity of central macula (fovea) in the red channel adjusted for background intensity of the entire image in the blue channel |
+| **median_intensity_R** | Numeric | Median background pixel intensity of the entire image in the red channel |
+| **median_intensity_G** | Numeric | Median background pixel intensity of the entire image in the green channel |
+| **median_intensity_B** | Numeric | Median background pixel intensity of the entire image in the blue channel |
+| **median_intensity** | Numeric | Median background pixel intensity of the entire grayscale image |
+| **orientation** | Numeric | OD orientation relative to the horizontal axis, i.e. 0 (horizontal) to 90 (vertical) |
+| **disc_x** | Numeric | X-coordinate of OD centroid |
+| **disc_y** | Numeric | Y-coordinate of OD centroid |
+| **macula_x** | Numeric | X-coordinate of macular centroid (fovea) |
+| **macula_y** | Numeric | Y-coordinate of macular centroid (fovea) |
+| **sex** | Character | Female or male |
+| **VA** | Numeric | Distance visual acuity in LogMAR |
+| **cataract** | Boolean | Self-reported (touch-screen questionnaire) cataract at the time of data collection |
+| **diabetic_eye** | Boolean | Self-reported (touch-screen questionnaire) diabetes-related eye condition at the time of data collection |
+| **md** | Boolean | Self-reported (touch-screen questionnaire) macular degeneration at the time of data collection |
+| **ethnicity** | Character | Self-reported ethnicity |
+| **glaucoma** | Boolean | Self-reported (touch-screen questionnaire) glaucoma at the time of data collection |
+| **eye** | Character | Right eye or left eye |
 
 
