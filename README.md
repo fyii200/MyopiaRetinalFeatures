@@ -1,4 +1,4 @@
-## Relative importance of different optic disc (OD) and foveal parameters in the prediction of refractive error
+## Relative importance of different optic disc (OD) and foveal parameters for the prediction of refractive error
 Anonymised imaging data derived from colour fundus photographs and other relevant variables can be found in the 'data' directory (*derivedDataAnonymised.csv*). The dataset contans 374 rows and 40 columns. Each row corresponds to an eye from a unique individual. The codebook below summarises the content of the dataset:
 
 | Column name | Data type | What it represents |
