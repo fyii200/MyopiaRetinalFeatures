@@ -3,7 +3,7 @@ Anonymised imaging data derived from colour fundus photographs and other relevan
 
 | Column name | Data type | What it represents |
 | :---:   | :---: | :---: |
-| **name** | Integer | Index corresponds to each image/individual |
+| **name** | Integer | Index corresponding to a unique image/individual |
 | **age** | Integer | Age at the time of data collection (including image acquisition) |
 | **ser** | Numeric | Spherical equivalent refraction (autorefraction) in dioptres, i.e. sph + 0.5*cyl |
 | **cr** | Numeric | Mean of corneal radius in the strongest and weakest meridians (mm) |
@@ -45,3 +45,11 @@ Anonymised imaging data derived from colour fundus photographs and other relevan
 | **eye** | Character | Right eye or left eye |
 
 
+### 1) ***computeODfoveaParameters.m***
+MATLAB script that extracts and computes relevant OD and foveal parameters from masked images (i.e. showing only OD and macula)
+
+### 2) ***linearRegression.R***
+R script that runs on *derivedDataAnonymised.csv* to assess the (univariable & multivariable) linear associations between relevant OD/foveal parameters and SER. Additional & sensitivity analyses (e.g. SER vs OD-fovea distance using third degree polynomial and segmented linear regression functions) can also be reproduced by running the script.
+
+### 3) ***RFanalysis.ipynb***
+Python script (Jupyter Notebook) that runs on *derivedDataAnonymised.csv* to assess the relative importance of each OD/foveal parameter (in addition to age and sex) in the prediction of SER using a permutation-based approach. Details pertaining to hyperparameter tuning (via grid search), model fitting and construction of "eigendiscs" (stratified by refractive error and eye) can also be found.
