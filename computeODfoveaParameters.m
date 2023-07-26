@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % "Relative importance of different optic disc and foveal %
-%    parameters in the prediction of refractive error"    %
+%    parameters for the prediction of refractive error"    %
 %                                                         %
 %                  Author: Fabian SL Yii                  %
 %               Email: fabian.yii@ed.ac.uk                %
