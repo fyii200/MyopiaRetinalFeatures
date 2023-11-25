@@ -1,10 +1,20 @@
 ## Intro
 
+Left eye (simulated)|Right eye (simulated)
+--|--
+<img src="videos/simulated_LE.gif" width="450" />|<img src="videos/simulated_RE.gif" width="450" />
 
-<img width="287" alt="image" src="https://github.com/fyii200/MyopiaRetinalFeatures/assets/72454128/fd5648d6-f691-4867-9c4d-76188745cef5">
+Left eye (average mask)|Right eye (average mask)
+--|--
+<img src="videos/average_LE.gif" width="450" />|<img src="videos/average_RE.gif" width="450" />
+
+Left eye (top eigenvector)|Right eye (top eigenvector)
+--|--
+<img src="videos/eigen1_LE.gif" width="450" />|<img src="videos/eigen1_RE.gif" width="450" />
 
 
-<img width="288" alt="image" src="https://github.com/fyii200/MyopiaRetinalFeatures/assets/72454128/53416ed6-a849-4085-942b-c389b160af71">
+
+
 
 
 
