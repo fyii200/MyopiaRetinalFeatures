@@ -1,4 +1,18 @@
 ## Intro
+
+
+<img width="287" alt="image" src="https://github.com/fyii200/MyopiaRetinalFeatures/assets/72454128/fd5648d6-f691-4867-9c4d-76188745cef5">
+
+
+<img width="288" alt="image" src="https://github.com/fyii200/MyopiaRetinalFeatures/assets/72454128/53416ed6-a849-4085-942b-c389b160af71">
+
+
+
+
+
+
+
+======================================= Note: still under construction =======================================
 Anonymised imaging data derived from colour fundus photographs and other relevant variables can be found in the 'data' directory (*derivedDataAnonymised.csv*). The dataset contans 374 rows and 40 columns. Each row corresponds to an eye from a unique individual. The codebook below summarises the content of the dataset:
 
 | Column name | Data type | What it represents |
