@@ -12,7 +12,6 @@ Left eye (top eigenvector)|Right eye (top eigenvector)
 --|--
 <img src="videos/eigen1_LE.gif" width="450" />|<img src="videos/eigen1_RE.gif" width="450" />
 
-======================================= Note: still under construction =======================================
 
 ### 1) ***SER_cohort_builder.R***
 R script detailing each step of the participant selection process.
