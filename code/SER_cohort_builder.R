@@ -1,3 +1,8 @@
+################################################################################
+#                                  Fabian SL Yii                               #
+#                               fabian.yii@ed.ac.uk                            #
+################################################################################
+
 ## Clear workspace
 rm(list=ls())
 
@@ -17,38 +22,6 @@ d[rowsWithFundus, ]$fundusQuality <- quality$quality
 #############################################################################################
 ############################# Quality control & building cohort #############################
 #############################################################################################
-
-# ## Exclude if image quality score < 45
-# # 122509 eyes left (60777 RE, 61732 LE)
-# exclude <- which(d$OCT_quality_score < 45)
-# paste(length(exclude), 'eyes excluded due to poor image quality out of', nrow(d), 'eyes')
-# paste(sum(is.na(d$OCT_quality_score)), 'eyes excluded due to absent poor image quality score out of', nrow(d), 'eyes')
-# d <- subset(d, OCT_quality_score >= 45) 
-# 
-# ## Exclude based on other TABS segmentation quality indicators
-# # ILM indicator
-# exclude_ILM_indicator <- which(d$OCT_ILM_indicator < quantile(d$OCT_ILM_indicator, probs=0.1) ) # worse 10% indices
-# # Validity indicator
-# exclude_valid_count   <- which(d$OCT_valid_count < quantile(d$OCT_valid_count, probs=0.1) )     # worse 10% indices
-# # Motion indicators (average between motion delta and motion correlation)
-# # From the nerve fiber layer and full retinal thicknesses pearson correlations & absolute 
-# # differences between the thickness data from each set of consecutive B-scans are calculated. 
-# # The lowest correlation (motion correlation) and the highest absolute difference (motion delta) 
-# # in a scan serve as the resulting indicator scores. 
-# # https://www.sciencedirect.com/science/article/pii/S0161642016307394?via%3Dihub 
-# OCT_max_motion_delta_inversed            <- 1/d$OCT_max_motion_delta # inversed so smaller values are worse (bring in line with motion correlation)
-# OCT_max_motion_delta_inversed_range      <- max(OCT_max_motion_delta_inversed) - min(OCT_max_motion_delta_inversed)    
-# OCT_max_motion_delta_inversed_normalised <- (OCT_max_motion_delta_inversed - min(OCT_max_motion_delta_inversed))/OCT_max_motion_delta_inversed_range  # min-max normalised
-# OCT_min_motion_corr_range                <- max(d$OCT_min_motion_corr) - min(d$OCT_min_motion_corr)
-# OCT_min_motion_corr_normalised           <- (d$OCT_min_motion_corr - min(d$OCT_min_motion_corr))/OCT_min_motion_corr_range  # min-max normalised
-# mean_motion_score                        <- (OCT_max_motion_delta_inversed_normalised + OCT_min_motion_corr_normalised)/2                             # mean of motion delta & correlation 
-# exclude_motion_indicator                 <- which(mean_motion_score < quantile(mean_motion_score, probs=0.1) )                                        # worse 10% indices
-# # Indices (rows) to be excluded from the data frame
-# # 22651 eyes to be excluded 
-# exclude_concat <- c(exclude_ILM_indicator, exclude_valid_count, exclude_motion_indicator)
-# exclude_final <- unique(exclude_concat) 
-# # 99858 eyes left (49645 RE, 50213 LE)
-# d <- d[-exclude_final,] 
 
 ## Include only eyes with fundus photo
 # 135787 eyes left (68108 RE, 67679 LE)
