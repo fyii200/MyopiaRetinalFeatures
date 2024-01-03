@@ -1,11 +1,11 @@
-#### Simulations using the mean value of each retinal parameter* stratified by refractive error (from high hyperopia to high myopia). 
+#### Simulations using the mean value of each retinal parameter* stratified by refractive error (from high hyperopia to high myopia)
 ##### *Red vascular arcade: artery; green vascular arcade: vein; broken line: major axis of the optic disc*
 ##### *adjusted for ocular magnification where necessary
 Left eye |Right eye 
 --|--
 <img src="videos/simulated_LE.gif" width="450" />|<img src="videos/simulated_RE.gif" width="450" />
 
-#### Average segmentation mask* stratified by refractive error (from high hyperopia to high myopia). 
+#### Average segmentation mask* stratified by refractive error (from high hyperopia to high myopia)
 ##### *ocular magnification cannot be accounted for
 Left eye |Right eye
 --|--
