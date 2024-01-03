@@ -1,8 +1,7 @@
-###
-# In RE more negative orientation means the disc is increasingly 
-# tilted towards fovea, while in LE this means the disc is increasingly
-# tilted away from fovea
-###
+################################################################################
+#                                  Fabian SL Yii                               #
+#                               fabian.yii@ed.ac.uk                            #
+################################################################################
 library(vctrs)
 library(sjPlot)
 library(segmented)
@@ -65,6 +64,12 @@ d$adj_CRVE_Knudtson <- littmann(d$CRVE_Knudtson, d$SER, d$meanCornealRadius)
 d$id <- factor(d$id)
 d$eye <- factor(d$eye)
 d$sex <- factor(d$sex)
+
+### NOTE ###
+# In RE more negative orientation means the disc is increasingly 
+# tilted towards fovea, while in LE this means the disc is increasingly
+# tilted away from fovea
+
 
 ####################################################################################
 ################################## Start analyses ##################################
@@ -187,9 +192,13 @@ LE_OLS_nonmyopes <- lm(SER ~ sex +
 LE_OLS_nonmyopes_summary <- summary(LE_OLS_nonmyopes)
 
 
-## Save results in a data frame
+####################################################################################
+###################################### Plots #######################################
+####################################################################################
+## "extract_results" is an internal function that extracts results from a quantile
+## regression object and saves them as a data frame
 extract_results <- function(summaryObject){
-  
+
   # Names of features to be extracted
   features <- c("Intercept", "Male", "Age", "OD-fovea distance", "OD-fovea angle", 
                 "OD orientation", "FPI", "OD ovality", "OD area", "CRAE",
@@ -220,19 +229,19 @@ extract_results <- function(summaryObject){
   return(df)
 }
 
+## Extracting and saving quntile regression results
 REdf <- extract_results(REsummary)
 REdf$eye <- "RE"
 LEdf <- extract_results(LEsummary)
 LEdf$eye<- "LE"
-
 df <- rbind(REdf, LEdf)
-df$eye <- factor(df$eye)
+df$eye <- factor(df$eye) # factorise "eye"
 
 ## Specify background and foreground (plot panel) colours
 bg_col <- rgb(0.6,0.1,0, alpha=0.01)
 fg_col <- rgb(0.8,0.4,0, alpha=0.03)
 
-## Intercept
+## Intercept plot (shows the average SER a given conditional quantile corresponds to)
 df %>% filter(features == "Intercept") %>% ggplot(aes(x=taus, y=coef)) +
   geom_segment( aes(x=taus, xend=taus, y=0, yend=coef), colour="gray", alpha=0.6) +
   geom_point(size=2, colour=rep(hcl.colors(n_taus),2)) +
@@ -250,7 +259,7 @@ df %>% filter(features == "Intercept") %>% ggplot(aes(x=taus, y=coef)) +
   scale_y_continuous(labels = seq(-7.5, 5, 1), breaks = seq(-7.5, 5, 1))
 ggsave("intercept.png", width=7, height=6, units="in", bg="white")
 
-## Coefficient plots (BE)
+## Coefficient plots (standardised beta coefficient vs conditional quantile; one plot per retinal parameter)
 plot_df <- filter(df, !features %in% c("Age", "Male", "Intercept"))
 point_cols <- ifelse(plot_df$p_val>0.05, "black", NA)
 ggplot(data=plot_df, aes(x=taus, y=coef)) + 
