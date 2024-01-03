@@ -23,7 +23,7 @@ MATLAB script computing optic disc (OD) and foveal parameters, which include OD 
 R script used to perform multiple linear regression and quantile regression, with retinal parameters as the independent variables and spherical equivalent refraction as the dependent variable.
 
 ### 4) ***code/arcade_analysis***
-Directory containing python scripts compute vessel concavity:
+Directory containing python scripts to compute vessel concavity:
 ##### *preprocess.py* is used to preprocess the vessel mask (artery and vein separately) and extract/detect the papillomacular vascular arcade
 ##### *arcade_model.py* is used to fit a second-degree polynomial function (parabola) to the preprocessed vascular arcade using either least squares or RANSAC.
 ##### *main.py* is the main script that performs the analysis using *preprocess.py* and *arcade_model.py*.
