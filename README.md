@@ -25,7 +25,7 @@ R script used to perform multiple linear regression and quantile regression, wit
 ### 4) ***code/arcade_analysis***
 Directory containing python scripts to compute vessel concavity:
 ##### *preprocess.py* is used to preprocess the vessel mask (artery and vein separately) and extract/detect the papillomacular vascular arcade
-##### *arcade_model.py* is used to fit a second-degree polynomial function (parabola) to the preprocessed vascular arcade using either least squares or RANSAC.
+##### *arcade_model.py* is used to fit a second-degree polynomial function (parabola) to the preprocessed vascular arcade using either the least squares or RANSAC method. Note that RANSAC was used in this work due to its robustness to outliers.
 ##### *main.py* is the main script that performs the analysis using *preprocess.py* and *arcade_model.py*.
 
 
