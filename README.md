@@ -30,7 +30,7 @@ Directory containing python scripts to compute vessel concavity:
 
 ### Citation
 ```
-Yii F, Bernabeu MO, Dhillon D, Strang N, MacGillivray T. Retinal changes from hyperopia to myopia: Not all dioptres are created equal. Invest Ophthalmol Vis Sci (in press).
+Yii F, Bernabeu MO, Dhillon D, Strang N, MacGillivray T. Retinal changes from hyperopia to myopia: Not all dioptres are created equal. Invest. Ophthalmol. Vis. Sci. 2024;65(5):25. https://doi.org/10.1167/iovs.65.5.25.
 ```
 
 
