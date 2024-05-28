@@ -17,10 +17,10 @@ Left eye |Right eye
 R script detailing each step of the participant selection process.
 
 ### 2) ***code/ODfovea_analysis.m***
-MATLAB script computing optic disc (OD) and foveal parameters, which include OD major axis length, OD minor axis length, OD orientation, OD-fovea distance and OD-fovea angle. Note that OD major and minor axis lengths are used to compute OD area (in line 36 of *linear_and_quantile_regression.R* below).
+MATLAB script for computing optic disc (OD) and foveal parameters, which include OD major axis length, OD minor axis length, OD orientation, OD-fovea distance and OD-fovea angle. Note that OD major and minor axis lengths are used to compute OD area (in line 36 of *linear_and_quantile_regression.R* below).
 
 ### 3) ***code/linear_and_quantile_regression.R***
-R script used to perform multiple linear regression and quantile regression, with retinal parameters as the independent variables and spherical equivalent refraction as the dependent variable.
+R script used to perform multiple linear regression and quantile regression, with retinal parameters as the independent variables and spherical equivalent refraction as the dependent variable, controlling for age, sex and corneal radius of curvature.
 
 ### 4) ***code/arcade_analysis***
 Directory containing python scripts to compute vessel concavity:
