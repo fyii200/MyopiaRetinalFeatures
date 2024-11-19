@@ -1,11 +1,11 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-###########################################################
-#                                                         #
-#                  Author: Fabian Yii                     #
-#               Email: fabian.yii@ed.ac.uk                #
-#                                                         #
-###########################################################
-###########################################################
+"""
+Script defining the "parabola_ls" and "RANSAC" classes. The former
+fits a parabola using the least squares method, while the latter
+uses the RANSAC algorithm.
+
+Author : Fabian Yii
+Email  : fabian.yii@ed.ac.uk
+"""
 
 import numpy as np
 import matplotlib.pyplot as plt
