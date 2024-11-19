@@ -5,40 +5,37 @@
 
 clc, clear all, close all;
 
-%% Get names of all masked images
 % specify root directory
-root = "/Users/fabianyii/Library/CloudStorage/OneDrive-UniversityofEdinburgh/Projects/UKB_full"; % Mac
-% root = "C:\Users\fslyi\OneDrive - University of Edinburgh\Projects\UKB_full";                    % Windows
+root = ""; 
 
+%% Get mask names
 % path to OD segmentation masks
-OD_masks_path = fullfile(root, "outputs", "OD", "masks");   
+OD_masks_path    = fullfile(root, "outputs", "OD", "masks");   
 % path to fovea segmentation masks
 fovea_masks_path = fullfile(root, "outputs", "fovea", "masks");   
-% specify directory where the tabular data (OD/foveal parameters) will be saved
-save_csv_path = fullfile(root, "outputs", "csv");
-
+% specify directory in which the tabular data (OD/foveal parameters) should be saved
+save_csv_path    = fullfile(root, "outputs", "csv");
 % Get mask names
-mask_names = dir(OD_masks_path);
-% Only want to include filenames, i.e. exclude directories
-mask_names = mask_names(~[mask_names.isdir]);
+mask_names       = dir(OD_masks_path);
+% Make sure only filenames are included, i.e. exclude directories
+mask_names       = mask_names(~[mask_names.isdir]);
 
-% Read full refraction dataset which contains mean SER & mean corneal radius (in mm).
+%% Read full refraction dataset containing mean SER & mean corneal radius (in mm).
 refraction = readtable(fullfile(root, "data", "cleaned_data_long_PM_cohort.csv" ));
-foveaData = readtable(fullfile(root, "outputs", "csv", "fovea_intensity_data.csv" ));
+
+%% Read data containing fovea-specific parameters 
+foveaData  = readtable(fullfile(root, "outputs", "csv", "fovea_intensity_data.csv" ));
 
 
 %% Main analysis starts here
-
 % Cell array to store derived OD/foveal parameters of interest 
- result = {"name", "age", "SER", "meanCornealRadius", "sph", "cyl", "disc_x", "disc_y"..., 
-           "od_area", "adj_od_area", "major_length", "adj_major_length"...,
-           "minor_length", "adj_minor_length", "orientation"...,
-           "dist", "adj_dist", "vertical_angle", "OD_seg", "fovea_seg"; 
-           [], [], [], [], [], [], [], [], [], [], [] ..., 
-           [], [], [], [], [], [], [], [], []};
+ result = {"name", "age", "SER", "meanCornealRadius", "sph", "cyl", "disc_x", "disc_y", "od_area" ..., 
+           "adj_od_area", "major_length", "adj_major_length", "minor_length", "adj_minor_length"  ...,
+           "orientation", "dist", "adj_dist", "vertical_angle", "OD_seg", "fovea_seg";
+           [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []};
 
  f = waitbar(0, 'Starting');
- for i=1:length(mask_names)
+ for i = 1:length(mask_names)
 
     waitbar(i/length(mask_names), f, sprintf('Progress: %d %%', floor(i/length(mask_names)*100)));
 
@@ -67,52 +64,50 @@ foveaData = readtable(fullfile(root, "outputs", "csv", "fovea_intensity_data.csv
     result{i+1, 6} = cyl;
         
     % Read the OD mask (2D binary mask; 0 or 255)
-    OD_mask_gray = imread( fullfile(OD_masks_path, mask_name) );        % 560 x 560
-    
+    OD_mask_gray     = imread( fullfile(OD_masks_path, mask_name) );     % 560 x 560
     % Read the (fovea) masked image (3D colour masked image)
-    fovea_masked_img = imread( fullfile(fovea_masks_path, mask_name) ); % 560 x 560 x 3
+    fovea_masked_img = imread( fullfile(fovea_masks_path, mask_name) );  % 560 x 560 x 3
     % Convert to 2D grayscale
-    fovea_mask_gray = rgb2gray(fovea_masked_img);                       % 560 x 560
+    fovea_mask_gray  = rgb2gray(fovea_masked_img);                       % 560 x 560
     % Convert to binary (0 or 255)
-    fovea_mask_gray = uint8(imbinarize(fovea_mask_gray)*255);           % 560 x 560 (binary)
-
+    fovea_mask_gray  = uint8(imbinarize(fovea_mask_gray)*255);           % 560 x 560 (binary)
 
     %% Connected component analysis 
-    OD_cc = bwconncomp(OD_mask_gray);
+    OD_cc    = bwconncomp(OD_mask_gray);
     fovea_cc = bwconncomp(fovea_mask_gray);
     
     % Only compute OD parameters if OD mask is not empty
     if OD_cc.NumObjects ~= 0
         % Compute OD centroid coordinates, area, major and minor axis length and orientation for each connected component
-        OD_stats = regionprops(OD_cc, 'Centroid', 'Area', 'MajorAxisLength', 'MinorAxisLength', 'Orientation');
+        OD_stats         = regionprops(OD_cc, 'Centroid', 'Area', 'MajorAxisLength', 'MinorAxisLength', 'Orientation');
         % Extract OD centroid 
-        OD_centroid = [OD_stats.Centroid(1), OD_stats.Centroid(2)];
+        OD_centroid      = [OD_stats.Centroid(1), OD_stats.Centroid(2)];
     
         % Extract OD Area
-        od_area = OD_stats.Area;                           % not adjusted for magnification
-        adj_od_area = littmann(od_area, ser, cr, "True");  % adjusted for magnification using Littmann's formula (see function below)
+        od_area          = OD_stats.Area;                       % not adjusted for magnification
+        adj_od_area      = littmann(od_area, ser, cr, "True");  % adjusted for magnification using Littmann's formula (see function below)
       
         % Extract OD Major Axis Length
-        major_length = OD_stats.MajorAxisLength;
+        major_length     = OD_stats.MajorAxisLength;
         adj_major_length = littmann(major_length, ser, cr, "False");
     
         % Extract OD Minor Axis Length
-        minor_length = OD_stats.MinorAxisLength;
+        minor_length     = OD_stats.MinorAxisLength;
         adj_minor_length = littmann(minor_length, ser, cr, "False");
 
         % Extract OD orientation (angle b/w x axis and OD major axis), 
-        orientation = OD_stats.Orientation;
+        orientation      = OD_stats.Orientation;
         
         % Save OD parameters to their respective columns in the result cell array.
-        result{i+1, 7} = OD_centroid(1);               % OD x coordinate
-        result{i+1, 8} = OD_centroid(2);               % OD y coordinate
-        result{i+1, 9} = od_area;
-        result{i+1, 10} = adj_od_area;
-        result{i+1, 11} = major_length;
-        result{i+1, 12} = adj_major_length;
-        result{i+1, 13} = minor_length;
-        result{i+1, 14} = adj_minor_length;
-        result{i+1, 15} = orientation;
+        result{i+1, 7}   = OD_centroid(1);               % OD x coordinate
+        result{i+1, 8}   = OD_centroid(2);               % OD y coordinate
+        result{i+1, 9}   = od_area;
+        result{i+1, 10}  = adj_od_area;
+        result{i+1, 11}  = major_length;
+        result{i+1, 12}  = adj_major_length;
+        result{i+1, 13}  = minor_length;
+        result{i+1, 14}  = adj_minor_length;
+        result{i+1, 15}  = orientation;
     end
 
     % Only compute OD-foveal distance and angle if OD and fovea masks are not empty
