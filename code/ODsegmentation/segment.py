@@ -1,3 +1,10 @@
+"""
+Author : Fabian Yii
+Email  : fabian.yii@ed.ac.uk
+
+2024
+"""
+
 import os
 import pandas as pd
 from OD.dataset import DatasetGenerator
