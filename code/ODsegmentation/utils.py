@@ -1,3 +1,10 @@
+"""
+Author : Fabian Yii
+Email  : fabian.yii@ed.ac.uk
+
+2024
+"""
+
 import numpy as np
 import torch
 import torch.nn as nn
