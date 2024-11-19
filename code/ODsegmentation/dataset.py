@@ -1,3 +1,10 @@
+"""
+Author : Fabian Yii
+Email  : fabian.yii@ed.ac.uk
+
+2023
+"""
+
 import os
 import torch
 import cv2 as cv
