@@ -23,6 +23,9 @@ class DatasetGenerator(Dataset):
               data_frame (pandas df)       : Dataframe containing image names and their corresponding information.
               croppedSize (tuple of int)   : Desired output size of the centre crop (default to 1400 by 1400 pixels,
                                              as this removes the black/empty border around the image in UK Biobank.
+        Return:
+              image (3D array)             : Preprocessed colour fundus photograph. 
+              image_name (str)             : Name of the retrieved fundus photograph.
         """
 
         self.image_names = list(data_frame.fundus)
