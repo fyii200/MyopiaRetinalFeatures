@@ -20,7 +20,7 @@ OD_segmentation : Folder containing a custom-trained deep learning model (DeepLa
 
 Disc segmentation model is freely/openly available, provided that appropriate credit is given (see Note 1).
 </pre>
-*Note 1: Additional details about the disc segmentation model can be found in [Yii et al.](https://doi.org/10.1007/978-3-031-47425-5_30). Model weights *(ODsegmentationWeights_v1)* are available for download from this repository.* 
+*Note 1: Additional details about the disc segmentation model can be found in [Yii et al.](https://doi.org/10.1007/978-3-031-47425-5_30). Model weights **(ODsegmentationWeights_v1)** are available for download from this repository.* 
 
 *Note 2: Artery/vein segmentation was performed using AutoMorph, which is freely and openly available [here](https://github.com/rmaphoh/AutoMorph/tree/main).*
 
