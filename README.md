@@ -51,9 +51,9 @@ linear_and_quantile_regression.R : R script used to perform multiple linear regr
 
 # Animations
 
-**Top&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:** &nbsp;Simulations using the mean value of each retinal parameter* stratified by refractive error (from high hyperopia to high myopia)
+**Top&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:** &nbsp;Simulations using the mean value of each retinal parameter stratified by refractive error (from high hyperopia to high myopia)
 
-**Bottom   &nbsp;:** &nbsp;Average segmentation mask* stratified by refractive error (from high hyperopia to high myopia)
+**Bottom   &nbsp;:** &nbsp;Average segmentation mask stratified by refractive error (from high hyperopia to high myopia)
 
 
 Left eye |Right eye 
@@ -62,14 +62,14 @@ Left eye |Right eye
 
 *Red vascular arcade: artery; green vascular arcade: vein; broken line: major axis of the optic disc*
 
-*adjusted for ocular magnification where necessary
+*Magnification correction for dimensional metrics
 
 
 Left eye |Right eye
 --|--
 <img src="videos/average_LE.gif" width="450" />|<img src="videos/average_RE.gif" width="450" />
 
-*ocular magnification cannot be accounted for
+*Magnification correction not possible
 
 
 
