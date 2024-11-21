@@ -5,6 +5,8 @@ artery and vein from the segmented retinal vasculature.
 
 Author : Fabian Yii
 Email  : fabian.yii@ed.ac.uk
+
+2024
 """
 
 import os
