@@ -1,5 +1,5 @@
 ################################################################################
-#                                  Fabian SL Yii                               #
+#                                Fabian Yii @ 2024                             #
 #                               fabian.yii@ed.ac.uk                            #
 ################################################################################
 
@@ -7,16 +7,16 @@
 rm(list=ls())
 
 ## Set working directory to parent directory
-setwd("/Users/fabianyii/Library/CloudStorage/OneDrive-UniversityofEdinburgh/Projects/UKB_full")
+setwd("")
 
 ## Read the cleaned tabular data in long format
-d  <- read.csv('data/cleaned_data_long_all.csv')
+d  <- read.csv(file.path("data", "cleaned_data_long_all.csv"))
 
 ## Read the csv file with fundus image quality grading and
-## combine it with 'd' (N=137016; 68508 RE & 68508 LE)                     
-quality <- read.csv('data/fundus_image_quality_result.csv')
-d$fundusQuality <- NA 
-rowsWithFundus <- which(d$fundus != "") # 1229 eyes don't have fundus photos so not graded
+## combine it with "d" (N=137016; 68508 RE & 68508 LE)                     
+quality                           <- read.csv(file.path("data", "fundus_image_quality_result.csv"))
+d$fundusQuality                   <- NA 
+rowsWithFundus                    <- which(d$fundus != "") # 1229 eyes don't have fundus photos
 d[rowsWithFundus, ]$fundusQuality <- quality$quality
 
 #############################################################################################
@@ -25,7 +25,7 @@ d[rowsWithFundus, ]$fundusQuality <- quality$quality
 
 ## Include only eyes with fundus photo
 # 135787 eyes left (68108 RE, 67679 LE)
-d <- d[d$fundus != '', ]
+d <- d[d$fundus != "", ]
 
 ## Include only eyes with good or usable fundus image quality
 # 90191 eyes left (47272 RE, 42919 LE)
@@ -45,11 +45,11 @@ quantile(d$meanCornealRadius, probs = c(0.005, 0.995), na.rm=TRUE)
 lowerCutoff   <- 7.11
 upperCutoff   <- 8.63
 # 395 eyes (211 RE, 184 LE)
-removeLowCR  <- which(d$meanCornealRadius < lowerCutoff) 
+removeLowCR   <- which(d$meanCornealRadius < lowerCutoff) 
 # 434 eyes (228 RE, 206 LE)
 removeHighCR  <- which(d$meanCornealRadius > upperCutoff) 
 # 84627 eyes left (44276 RE, 40351 LE)
-d <- d[-c(removeLowCR, removeHighCR), ]
+d             <- d[-c(removeLowCR, removeHighCR), ]
 
 ## Include only eyes where VA is available
 # 84409 eyes left (44173 RE, 40236 LE)
@@ -82,7 +82,7 @@ d <- d[rowSums(d[,45:51]) == 0, ]
 
 ## Save final data frame as csv
 write.csv(d, 
-          'data/cleaned_data_long_SER_cohort.csv',
-          row.names=FALSE) 
+          file.path("data", "cleaned_data_long_SER_cohort.csv"),
+          row.names = FALSE) 
 
 
