@@ -37,9 +37,7 @@ vascularArcade     : Folder containing python scripts (see below) for deriving t
   arcade_model.py    Used to fit a second-degree polynomial function to the preprocessed vascular arcade using either the least squares or RANSAC method.
   main.py            Calls *preprocess.py* and *arcade_model.py* to compute vessel concavity.
 </pre>
-*Note 1: OD major and minor axis lengths derived in "ODfovea_analysis.m" were used to compute OD area in line 36 of *linear_and_quantile_regression.R* (see Step 4).*
-
-*Note 2: Other vascular metrics, including central retinal arteriolar/venular equivalent, vessel tortuosity and vessel fractal dimension, were computed using [AutoMorph](https://github.com/rmaphoh/AutoMorph/tree/main).*
+*Note 1: Other vascular metrics, including central retinal arteriolar/venular equivalent, vessel tortuosity and vessel fractal dimension, were computed using [AutoMorph](https://github.com/rmaphoh/AutoMorph/tree/main).*
 
 ![fig3github](https://github.com/user-attachments/assets/f1bdc315-f270-41af-b496-c053df43a258)
 
