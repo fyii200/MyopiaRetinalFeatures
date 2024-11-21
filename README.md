@@ -1,3 +1,8 @@
+## This repository contains the source code for the following [work](https://iovs.arvojournals.org/article.aspx?articleid=2793667):
+```
+Yii F, Bernabeu MO, Dhillon D, Strang N, MacGillivray T. Retinal changes from hyperopia to myopia: Not all dioptres are created equal. Invest. Ophthalmol. Vis. Sci. 2024;65(5):25. https://doi.org/10.1167/iovs.65.5.25.
+```
+
 #### Simulations using the mean value of each retinal parameter* stratified by refractive error (from high hyperopia to high myopia)
 ##### *Red vascular arcade: artery; green vascular arcade: vein; broken line: major axis of the optic disc*
 ##### *adjusted for ocular magnification where necessary
@@ -28,10 +33,6 @@ Directory containing python scripts to compute vessel concavity:
 ##### *arcade_model.py* is used to fit a second-degree polynomial function (parabola) to the preprocessed vascular arcade using either the least squares or RANSAC method. Note that RANSAC was used in this work due to its robustness to outliers.
 ##### *main.py* is the main script that calls *preprocess.py* and *arcade_model.py* to compute vessel concavity automatically.
 
-### Citation
-```
-Yii F, Bernabeu MO, Dhillon D, Strang N, MacGillivray T. Retinal changes from hyperopia to myopia: Not all dioptres are created equal. Invest. Ophthalmol. Vis. Sci. 2024;65(5):25. https://doi.org/10.1167/iovs.65.5.25.
-```
 
 
 
