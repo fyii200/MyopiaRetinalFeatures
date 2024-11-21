@@ -4,6 +4,8 @@ This is the main executable script for deriving temporal arterial/venous concavi
 
 Author : Fabian Yii
 Email  : fabian.yii@ed.ac.uk
+
+2024
 """
 
 import os
