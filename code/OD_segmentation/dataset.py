@@ -40,9 +40,9 @@ class DatasetGenerator(Dataset):
         eye        = self.eyes[index]
         
         if eye == 'RE':
-            data_dir = join('/mnt/project/Bulk/Retinal Optical Coherence Tomography', 'Fundus (right)', str(image_name[0:2]) )
+            data_dir = join('mnt', 'project', 'Bulk' 'Retinal Optical Coherence Tomography', 'Fundus (right)', str(image_name[0:2]) )
         elif eye == 'LE':
-            data_dir = join('/mnt/project/Bulk/Retinal Optical Coherence Tomography', 'Fundus (left)', str(image_name[0:2]) )
+            data_dir = join('mnt', 'project' 'Bulk', 'Retinal Optical Coherence Tomography', 'Fundus (left)', str(image_name[0:2]) )
             
         image = cv.imread(join(data_dir, image_name))
         
