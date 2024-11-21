@@ -1,5 +1,5 @@
 ################################################################################
-#                                  Fabian SL Yii                               #
+#                                Fabian Yii @ 2024                             #
 #                               fabian.yii@ed.ac.uk                            #
 ################################################################################
 library(vctrs)
@@ -17,17 +17,16 @@ library(CGPfunctions)
 
 
 rm(list=ls())
-setwd("/Users/fabianyii/OneDrive - University of Edinburgh/Projects/UKB_full")
 # setwd('../') # set working directory to project parent directory
 
 # N=34455 (17828 RE, 16627 LE)
-d <- read.csv("data/cleaned_data_long_SER_cohort.csv")
+d <- read.csv(file.path("data", "cleaned_data_long_SER_cohort.csv"))
 
 # Derived (imaging) data (89216 eyes)
-fullDerivedData <- read.csv("outputs/csv/fullDerivedData.csv")
+fullDerivedData <- read.csv(file.path("outputs", "csv", "fullDerivedData.csv"))
 
 # N=34455 (17828 RE, 16627 LE)
-d <- merge(d, fullDerivedData, by="fundus") 
+d <- merge(d, fullDerivedData, by = "fundus") 
 
 # Convert FPI to numeric
 d$scaled_fovea30r_intensity_gray <- as.numeric(d$scaled_fovea30r_intensity_gray)
@@ -37,12 +36,10 @@ d$adj_od_area_ellipse <- d$adj_minor_length * d$adj_major_length * pi/4
 
 # Adjust CRAE & CRVE for ocular magnification
 littmann <- function(measured_size, SER, CR){
-  # Function: calculates object size by accounting for the effect of 
-  # magnification due to ametropia. Takes image_size, spherical 
-  # equivalent refraction (SER) and mean (b/w strong and week meridians) 
-  # corneal radius (CR, in mm), and returns true (object) size. This is based
-  # on Littmann's original magnification formula for fundus camera.
-  # READ: https://link.springer.com/content/pdf/10.1007/BF00175988.pdf
+  # This function accounts for the effect of ocular magnification
+  # on dimensional metrics. It takes image_size, spherical equivalent 
+  # refraction (SER) and corneal radius (CR, in mm) as inputs, and 
+  # returns the true (corrected) size, using the Littmann's formula.
   a = 0.01 + 0.00236 * (CR - 8)
   b = 0.6126 + 0.0968 * (CR - 8)
   c = 30.52 + 2.57 * (CR - 8)
@@ -52,23 +49,14 @@ littmann <- function(measured_size, SER, CR){
 d$adj_CRAE_Knudtson <- littmann(d$CRAE_Knudtson, d$SER, d$meanCornealRadius)
 d$adj_CRVE_Knudtson <- littmann(d$CRVE_Knudtson, d$SER, d$meanCornealRadius)
 
-# # Bengston
-# # https://www.sciencedirect.com/science/article/pii/S0002939407006630?via%3Dihub
-# d$adj_CRAE_Knudtson <- d$CRAE_Knudtson * (1 - 0.017 * d$SER)
-# d$adj_CRVE_Knudtson <- d$CRVE_Knudtson * (1 - 0.017 * d$SER)
-# d$adj_major_length <- d$major_length * (1 - 0.017 * d$SER)
-# d$adj_minor_length <- d$minor_length * (1 - 0.017 * d$SER)
-# d$adj_dist <- d$dist * (1 - 0.017 * d$SER)
-
 # Factorise id, eye and sex
 d$id <- factor(d$id)
 d$eye <- factor(d$eye)
 d$sex <- factor(d$sex)
 
 ### NOTE ###
-# In RE more negative orientation means the disc is increasingly 
-# tilted towards fovea, while in LE this means the disc is increasingly
-# tilted away from fovea
+# In RE more negative orientation means the disc is tilted towards the fovea, 
+# while in LE it means the disc is tilted away from the fovea.
 
 
 ####################################################################################
