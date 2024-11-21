@@ -18,42 +18,60 @@ SER_cohort_builder.R : R script for selecting eligible eyes/participants for the
 <pre>
 OD_segmentation : Folder containing a custom-trained deep learning model (DeepLabV3 with a MobileNetV3 large backbone) used for optic disc segmentation. 
 
-Optic disc segmentation model is freely and openly available to any interested reaserchers, provided that appropriate credit is given (see Note 1).
+Disc segmentation model is freely/openly available, provided that appropriate credit is given (see Note 1).
 </pre>
-Note 1: More details about the disc segmentation model are available at [Yii et al.](https://doi.org/10.1007/978-3-031-47425-5_30). Model weights are available to download from this repository. 
+*Note 1: Additional details about the disc segmentation model can be found in [Yii et al.](https://doi.org/10.1007/978-3-031-47425-5_30). Model weights are available for download from this repository.* 
 
-Note 2: Artery/vein segmentation was done using AutoMorph, which is freely and openly available [elsewhere](https://github.com/rmaphoh/AutoMorph/tree/main)
+*Note 2: Artery/vein segmentation was performed using AutoMorph, which is freely and openly available [here](https://github.com/rmaphoh/AutoMorph/tree/main).*
 
-Note 3: Foveal segmentation/localisation was done using a DU-Net model available from [VAMPIRE](https://vampire.computing.dundee.ac.uk/index.html)
-
-
-
-### Step 2: ***ODfovea_analysis.m***
-MATLAB script for computing optic disc (OD) and foveal parameters, which include OD major axis length, OD minor axis length, OD orientation, OD-fovea distance and OD-fovea angle. Note that OD major and minor axis lengths are used to compute OD area (in line 36 of *linear_and_quantile_regression.R* below).
-
-### Step 3: ***linear_and_quantile_regression.R***
-R script used to perform multiple linear regression and quantile regression, with retinal parameters as the independent variables and spherical equivalent refraction as the dependent variable, controlling for age, sex and corneal radius of curvature.
-
-### Step 4: ***arcade_analysis***
-Directory containing python scripts to compute vessel concavity:
-##### *preprocess.py* is used to preprocess the vessel mask (artery and vein separately) and extract/detect the papillomacular vascular arcade
-##### *arcade_model.py* is used to fit a second-degree polynomial function (parabola) to the preprocessed vascular arcade using either the least squares or RANSAC method. Note that RANSAC was used in this work due to its robustness to outliers.
-##### *main.py* is the main script that calls *preprocess.py* and *arcade_model.py* to compute vessel concavity automatically.
+*Note 3: Foveal segmentation/localisation was performed using a DU-Net model from [VAMPIRE](https://vampire.computing.dundee.ac.uk/index.html).*
 
 
-#### Simulations using the mean value of each retinal parameter* stratified by refractive error (from high hyperopia to high myopia)
-##### *Red vascular arcade: artery; green vascular arcade: vein; broken line: major axis of the optic disc*
-##### *adjusted for ocular magnification where necessary
+
+### Step 3: Retinal parameters
+<pre>
+ODfovea_analysis.m : MATLAB script for computing optic disc and foveal parameters, which are detailed in the paper.
+
+vascularArcade     : Folder containing python scripts (see below) for deriving temporal arterial/venous concavity from the segmented retinal vasculature.    
+  preprocess.py      Used to preprocess the artery/vein mask and detect the major temporal artery/vein
+  arcade_model.py    Used to fit a second-degree polynomial function to the preprocessed vascular arcade using either the least squares or RANSAC method.
+  main.py            Calls *preprocess.py* and *arcade_model.py* to compute vessel concavity.
+</pre>
+*Note 1: OD major and minor axis lengths derived in "ODfovea_analysis.m" were used to compute OD area in line 36 of *linear_and_quantile_regression.R* (see Step 4).*
+
+*Note 2: Other vascular metrics, including central retinal arteriolar/venular equivalent, vessel tortuosity and vessel fractal dimension, were computed using [AutoMorph](https://github.com/rmaphoh/AutoMorph/tree/main).*
+
+![fig3github](https://github.com/user-attachments/assets/f1bdc315-f270-41af-b496-c053df43a258)
+
+
+
+### Step 4: Linear and quantile regression
+<pre>
+linear_and_quantile_regression.R : R script used to perform multiple linear regression and quantile regression, as detailed in the paper.
+</pre>
+
+
+# Animations
+
+**Top&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:** &nbsp;Simulations using the mean value of each retinal parameter* stratified by refractive error (from high hyperopia to high myopia)
+
+**Bottom   &nbsp;:** &nbsp;Average segmentation mask* stratified by refractive error (from high hyperopia to high myopia)
+
+
 Left eye |Right eye 
 --|--
 <img src="videos/simulated_LE.gif" width="450" />|<img src="videos/simulated_RE.gif" width="450" />
 
-#### Average segmentation mask* stratified by refractive error (from high hyperopia to high myopia)
-##### *ocular magnification cannot be accounted for
+*Red vascular arcade: artery; green vascular arcade: vein; broken line: major axis of the optic disc*
+
+*adjusted for ocular magnification where necessary
+
+
 Left eye |Right eye
 --|--
 <img src="videos/average_LE.gif" width="450" />|<img src="videos/average_RE.gif" width="450" />
 
+*ocular magnification cannot be accounted for
 
 
 
