@@ -3,7 +3,7 @@
 Yii F, Bernabeu MO, Dhillon D, Strang N, MacGillivray T. Retinal changes from hyperopia to myopia: Not all dioptres are created equal. Invest. Ophthalmol. Vis. Sci. 2024;65(5):25. https://doi.org/10.1167/iovs.65.5.25.
 ```
 
-An overview of the workflow is provided below (source code int he directory named "code").
+An overview of the workflow is provided below (source code in the directory named "code").
 
 ### Step 1: ***SER_cohort_builder.R***
 R script detailing each step of the participant selection process.
