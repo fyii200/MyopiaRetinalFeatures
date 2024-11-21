@@ -95,8 +95,8 @@ data    = readtable(fullfile(root, "data", "cleaned_data_long_PM_cohort.csv" ));
         ODcentroid       = [ODstats.Centroid(1), ODstats.Centroid(2)]; % centroid coordinates
         ODmajorLength    = littmann(ODstats.MajorAxisLength, SER, CR, "False");                                                    % major OD axis Length with magnification correction
         ODminorLength    = littmann(ODstats.MinorAxisLength, SER, CR, "False");                                                    % minor OD axis Length with magnification correction
-        ODorientation    = abs(ODstats.Orientation);                                                                               % orientation (absolute angle b/w x axis and OD major axis) 
-        ODarea           = littmann(ODstats.Area, SER, CR, "True")                                                                 % optic disc area with magnification correction
+        ODorientation    = abs(ODstats.Orientation);                                                                               % orientation (absolute angle between x axis and OD major axis) 
+        ODarea           = ODminorLength * ODmajorLength * pi/4                                                                    % optic disc area based on the standard formula for the area of an ellipse
      
         % Save parameters
         result{i+1, 2}   = fovCentroid(1);               
