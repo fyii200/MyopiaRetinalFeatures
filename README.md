@@ -60,7 +60,7 @@ Left eye |Right eye
 --|--
 <img src="videos/simulated_LE.gif" width="450" />|<img src="videos/simulated_RE.gif" width="450" />
 
-*Red vascular arcade: artery; green vascular arcade: vein; broken line: major axis of the optic disc*
+*Red arcade: artery; green arcade: vein; broken line: major axis of the optic disc*
 
 *Magnification correction for dimensional metrics
 
