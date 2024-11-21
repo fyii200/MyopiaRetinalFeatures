@@ -29,12 +29,12 @@ fullDerivedData <- read.csv(file.path("outputs", "csv", "fullDerivedData.csv"))
 d <- merge(d, fullDerivedData, by = "fundus") 
 
 # Convert FPI to numeric
-d$scaled_fovea30r_intensity_gray <- as.numeric(d$scaled_fovea30r_intensity_gray)
+d$scaledFPI <- as.numeric(d$scaledFPI)
 
-# Calculate OD area (https://www.sciencedirect.com/science/article/pii/S0161642095309050)
-d$adj_od_area_ellipse <- d$adj_minor_length * d$adj_major_length * pi/4
+# Compute OD tilt
+d$ODtilt    <- ODmajorLength / ODminorLength
 
-# Adjust CRAE & CRVE for ocular magnification
+# Correct for the influence of ocular magnification on CRAE & CRVE
 littmann <- function(measured_size, SER, CR){
   # This function accounts for the effect of ocular magnification
   # on dimensional metrics. It takes image_size, spherical equivalent 
@@ -50,7 +50,7 @@ d$adj_CRAE_Knudtson <- littmann(d$CRAE_Knudtson, d$SER, d$meanCornealRadius)
 d$adj_CRVE_Knudtson <- littmann(d$CRVE_Knudtson, d$SER, d$meanCornealRadius)
 
 # Factorise id, eye and sex
-d$id <- factor(d$id)
+d$id  <- factor(d$id)
 d$eye <- factor(d$eye)
 d$sex <- factor(d$sex)
 
@@ -70,12 +70,12 @@ n_taus <- length(taus)
 
 RE <- rq(SER ~ sex +
            scale(age) + 
-           scale(adj_dist) + 
-           scale(vertical_angle) +
-           scale(orientation) + 
-           scale(scaled_fovea30r_intensity_gray) + 
-           scale(adj_major_length/adj_minor_length) +
-           scale(adj_od_area_ellipse) +
+           scale(ODfovDist) + 
+           scale(ODfoveaAngle) +
+           scale(ODorientation) + 
+           scale(scaledFPI) + 
+           scale(ODtilt) +
+           scale(ODarea) +
            scale(adj_CRAE_Knudtson) +
            scale(adj_CRVE_Knudtson) +
            scale(Tortuosity_density_combined) +
@@ -90,12 +90,12 @@ REsummary <- summary(RE)
 ## RE: OLS linear regression (myopes)
 RE_OLS_myopes <- lm(SER ~ sex +
                       scale(age) + 
-                      scale(adj_dist) + 
-                      scale(vertical_angle) +
-                      scale(orientation) + 
-                      scale(scaled_fovea30r_intensity_gray) + 
-                      scale(adj_major_length/adj_minor_length) +
-                      scale(adj_od_area_ellipse) +
+                      scale(ODfovDist) + 
+                      scale(ODfoveaAngle) +
+                      scale(ODorientation) + 
+                      scale(scaledFPI) + 
+                      scale(ODtilt) +
+                      scale(ODarea) +
                       scale(adj_CRAE_Knudtson) +
                       scale(adj_CRVE_Knudtson) +
                       scale(Tortuosity_density_combined) +
@@ -108,12 +108,12 @@ RE_OLS_myopes_summary <- summary(RE_OLS_myopes)
 ## RE: OLS linear regression (non-myopes)
 RE_OLS_nonmyopes <- lm(SER ~ sex +
                          scale(age) + 
-                         scale(adj_dist) + 
-                         scale(vertical_angle) +
-                         scale(orientation) + 
-                         scale(scaled_fovea30r_intensity_gray) + 
-                         scale(adj_major_length/adj_minor_length) +
-                         scale(adj_od_area_ellipse) +
+                         scale(ODfovDist) + 
+                         scale(ODfoveaAngle) +
+                         scale(ODorientation) + 
+                         scale(scaledFPI) + 
+                         scale(ODtilt) +
+                         scale(ODarea) +
                          scale(adj_CRAE_Knudtson) +
                          scale(adj_CRVE_Knudtson) +
                          scale(Tortuosity_density_combined) +
@@ -126,12 +126,12 @@ RE_OLS_nonmyopes_summary <- summary(RE_OLS_nonmyopes)
 ## LE: Linear quantile regression 
 LE <- rq(SER ~ sex +
            scale(age) + 
-           scale(adj_dist) + 
-           scale(vertical_angle) +
-           scale(orientation) + 
-           scale(scaled_fovea30r_intensity_gray) + 
-           scale(adj_major_length/adj_minor_length) +
-           scale(adj_od_area_ellipse) +
+           scale(ODfovDist) + 
+           scale(ODfoveaAngle) +
+           scale(ODorientation) + 
+           scale(scaledFPI) + 
+           scale(ODtilt) +
+           scale(ODarea) +
            scale(adj_CRAE_Knudtson) +
            scale(adj_CRVE_Knudtson) +
            scale(Tortuosity_density_combined) +
@@ -146,12 +146,12 @@ LEsummary <- summary(LE)
 ## LE: OLS linear regression (myopes)
 LE_OLS_myopes <- lm(SER ~ sex +
                       scale(age) + 
-                      scale(adj_dist) + 
-                      scale(vertical_angle) +
-                      scale(orientation) + 
-                      scale(scaled_fovea30r_intensity_gray) + 
-                      scale(adj_major_length/adj_minor_length) +
-                      scale(adj_od_area_ellipse) +
+                      scale(ODfovDist) + 
+                      scale(ODfoveaAngle) +
+                      scale(ODorientation) + 
+                      scale(scaledFPI) + 
+                      scale(ODtilt) +
+                      scale(ODarea) +
                       scale(adj_CRAE_Knudtson) +
                       scale(adj_CRVE_Knudtson) +
                       scale(Tortuosity_density_combined) +
@@ -164,12 +164,12 @@ LE_OLS_myopes_summary <- summary(LE_OLS_myopes)
 ## LE: OLS linear regression (non-myopes)
 LE_OLS_nonmyopes <- lm(SER ~ sex +
                          scale(age) + 
-                         scale(adj_dist) + 
-                         scale(vertical_angle) +
-                         scale(orientation) + 
-                         scale(scaled_fovea30r_intensity_gray) + 
-                         scale(adj_major_length/adj_minor_length) +
-                         scale(adj_od_area_ellipse) +
+                         scale(ODfovDist) + 
+                         scale(ODfoveaAngle) +
+                         scale(ODorientation) + 
+                         scale(scaledFPI) + 
+                         scale(ODtilt) +
+                         scale(ODarea) +
                          scale(adj_CRAE_Knudtson) +
                          scale(adj_CRVE_Knudtson) +
                          scale(Tortuosity_density_combined) +
@@ -188,28 +188,25 @@ LE_OLS_nonmyopes_summary <- summary(LE_OLS_nonmyopes)
 extract_results <- function(summaryObject){
 
   # Names of features to be extracted
-  features <- c("Intercept", "Male", "Age", "OD-fovea distance", "OD-fovea angle", 
-                "OD orientation", "FPI", "OD ovality", "OD area", "CRAE",
-                "CRVE", "Vessel tortuosity", "Vessel FD", "Artery concavity", 
-                "Vein concavity")
-  
+  features   <- c("Intercept", "Male", "Age", "OD-fovea distance", "OD-fovea angle", "OD orientation", "FPI", "OD ovality", 
+                  "OD area", "CRAE", "CRVE", "Vessel tortuosity", "Vessel FD", "Artery concavity",  "Vein concavity")
   n_features <- length(features)
   
   # Create empty dataframe
-  df <- data.frame("features"=vec_rep_each(features, n_taus),
-                   "taus"=vec_rep(taus, n_features),
-                   "coef"=rep(NA, n_features*n_taus),
-                   "SE"=rep(NA, n_features*n_taus),
-                   "p_val"=rep(NA, n_features*n_taus))
+  df <- data.frame("features" = vec_rep_each(features, n_taus),
+                   "taus"     = vec_rep(taus, n_features),
+                   "coef"     = rep(NA, n_features*n_taus),
+                   "SE"       = rep(NA, n_features*n_taus),
+                   "p_val"    = rep(NA, n_features*n_taus))
   
-  # Start extracting results
+  # Extract regression results
   for(feature in features){
     for(tau in taus){
-      df_row <- (df$features == feature) & (df$taus == tau)
-      tau_ind <- match(tau, taus)
-      feature_ind <- match(feature, features)
-      df[df_row,]$coef <- summaryObject[tau_ind][[1]]$coefficient[feature_ind, 1]
-      df[df_row,]$SE <- summaryObject[tau_ind][[1]]$coefficient[feature_ind, 2]
+      df_row            <- (df$features == feature) & (df$taus == tau)
+      tau_ind           <- match(tau, taus)
+      feature_ind       <- match(feature, features)
+      df[df_row,]$coef  <- summaryObject[tau_ind][[1]]$coefficient[feature_ind, 1]
+      df[df_row,]$SE    <- summaryObject[tau_ind][[1]]$coefficient[feature_ind, 2]
       df[df_row,]$p_val <- summaryObject[tau_ind][[1]]$coefficient[feature_ind, 4]
     }
   }
@@ -217,87 +214,86 @@ extract_results <- function(summaryObject){
   return(df)
 }
 
-## Extracting and saving quntile regression results
-REdf <- extract_results(REsummary)
+## Extract and save quntile regression results
+REdf     <- extract_results(REsummary)
 REdf$eye <- "RE"
-LEdf <- extract_results(LEsummary)
-LEdf$eye<- "LE"
-df <- rbind(REdf, LEdf)
-df$eye <- factor(df$eye) # factorise "eye"
+LEdf     <- extract_results(LEsummary)
+LEdf$eye <- "LE"
+df       <- rbind(REdf, LEdf)
+df$eye   <- factor(df$eye) # factorise "eye"
 
 ## Specify background and foreground (plot panel) colours
 bg_col <- rgb(0.6,0.1,0, alpha=0.01)
 fg_col <- rgb(0.8,0.4,0, alpha=0.03)
 
 ## Intercept plot (shows the average SER a given conditional quantile corresponds to)
-df %>% filter(features == "Intercept") %>% ggplot(aes(x=taus, y=coef)) +
-  geom_segment( aes(x=taus, xend=taus, y=0, yend=coef), colour="gray", alpha=0.6) +
-  geom_point(size=2, colour=rep(hcl.colors(n_taus),2)) +
-  facet_wrap(~eye, nrow=1, scales="fixed") +
+df %>% filter(features == "Intercept") %>% ggplot(aes(x = taus, y = coef)) +
+  geom_segment( aes(x = taus, xend = taus, y = 0, yend = coef), colour = "gray", alpha = 0.6) +
+  geom_point(size = 2, colour = rep(hcl.colors(n_taus), 2)) +
+  facet_wrap(~eye, nrow = 1, scales = "fixed") +
   theme_light() +
   theme(legend.position = "none",
-        panel.border = element_blank(),
-        panel.grid = element_blank(),
-        plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm") ) +
-  geom_hline(yintercept=0, size=0.5, linetype="dashed", alpha=0.3, colour="blue") +
-  geom_vline(xintercept=0.515, linetype="dashed", size=0.5, alpha=0.3, colour="blue") +
+        panel.border    = element_blank(),
+        panel.grid      = element_blank(),
+        plot.margin     = margin(0.5, 0.5, 0.5, 0.5, "cm") ) +
+  geom_hline(yintercept = 0, size = 0.5, linetype = "dashed", alpha = 0.3, colour = "blue") +
+  geom_vline(xintercept = 0.515, linetype = "dashed", size = 0.5, alpha = 0.3, colour = "blue") +
   ylab("SER (D)") +
   xlab("Refractive quantile") +
   scale_x_continuous(labels = seq(0, 1, 0.1), breaks = seq(0,1,0.1)) +
   scale_y_continuous(labels = seq(-7.5, 5, 1), breaks = seq(-7.5, 5, 1))
-ggsave("intercept.png", width=7, height=6, units="in", bg="white")
+ggsave("intercept.png", width = 7, height = 6, units = "in", bg = "white")
 
 ## Coefficient plots (standardised beta coefficient vs conditional quantile; one plot per retinal parameter)
-plot_df <- filter(df, !features %in% c("Age", "Male", "Intercept"))
+plot_df    <- filter(df, !features %in% c("Age", "Male", "Intercept"))
 point_cols <- ifelse(plot_df$p_val>0.05, "black", NA)
-ggplot(data=plot_df, aes(x=taus, y=coef)) + 
-  geom_point(size=1, alpha=1, aes(colour=eye) ) +
-  geom_point(size=1, alpha=1, colour=point_cols) +
-  geom_smooth(size=0.5, alpha=0.1, se=FALSE, aes(group=eye, colour=eye)) +
+ggplot(data = plot_df, aes(x = taus, y = coef)) + 
+  geom_point(size = 1, alpha = 1, aes(colour = eye) ) +
+  geom_point(size = 1, alpha = 1, colour = point_cols) +
+  geom_smooth(size = 0.5, alpha = 0.1, se = FALSE, aes(group = eye, colour = eye)) +
   geom_blank(aes(y = 0)) +
-  geom_ribbon(aes(ymin=coef-SE*1.96, ymax=coef+SE*1.96, fill=eye), linetype=2, alpha=0.1) +
-  geom_hline(yintercept=0, linetype="dashed", size=0.5, alpha=0.25) +
-  geom_vline(xintercept=0.5, size=0.5, alpha=0.3, colour="darkgreen") +
+  geom_ribbon(aes(ymin = coef-SE*1.96, ymax = coef+SE*1.96, fill = eye), linetype = 2, alpha = 0.1) +
+  geom_hline(yintercept = 0, linetype = "dashed", size = 0.5, alpha = 0.25) +
+  geom_vline(xintercept = 0.5, size = 0.5, alpha = 0.3, colour = "darkgreen") +
   scale_x_continuous(breaks = seq(0, 1, by = 0.2)) +
   xlab("Refractive quantile") +
   ylab("Standardised beta") +
-  facet_wrap(~features, nrow=3, scales="free_y") +
+  facet_wrap(~features, nrow = 3, scales = "free_y") +
   theme_test() +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major = element_blank(),
-        panel.border = element_blank(),
-        panel.margin.y = unit(0.8, "lines"),
-        plot.background = element_rect(fill=bg_col),
-        strip.background = element_rect(colour=bg_col, fill=fg_col),
-        panel.background = element_rect(fill=fg_col),
-        strip.text = element_text(face="bold"),
-        legend.position = "top",
-        legend.title = element_blank()) +
-  scale_color_manual(values=c("RE"="red", "LE"="blue")) +
-  scale_fill_manual(values=c("RE"="red", "LE"="blue")) +
+        panel.border     = element_blank(),
+        panel.margin.y   = unit(0.8, "lines"),
+        plot.background  = element_rect(fill = bg_col),
+        strip.background = element_rect(colour = bg_col, fill = fg_col),
+        panel.background = element_rect(fill = fg_col),
+        strip.text       = element_text(face = "bold"),
+        legend.position  = "top",
+        legend.title     = element_blank()) +
+  scale_color_manual(values=c("RE" = "red", "LE" = "blue")) +
+  scale_fill_manual(values=c("RE" = "red", "LE" = "blue")) +
   labs(caption = "*Black points: p > 0.05")
-ggsave("coef.png", width=9, height=9, units="in", bg="white")
+ggsave("coef.png", width = 9, height = 9, units = "in", bg = "white")
 
 ## Rank features by magnitude of association
 filter(df, taus %in% c(0.005, 0.095, 0.215, 0.305, 0.395, 0.515, 0.605, 0.725, 0.815, 0.905, 0.995) & !features %in% c("Age", "Male", "Intercept")) %>% 
   mutate(taus = factor(taus)) %>% 
-  # mutate(taus = factor(taus, labels = c("High myopia","Myopia","Emmetropia","Hyperopia", "High hyperopia"))) %>% 
-  mutate(rounded_coef = round(abs(coef),2)) %>% 
+  mutate(rounded_coef = round(abs(coef), 2)) %>% 
   newggslopegraph(taus, rounded_coef, features, 
-                  Title=NULL, 
-                  ThemeChoice="wsj",
-                  Caption="Absolute beta vs refractive quantile",
-                  SubTitle=NULL,
-                  WiderLabels=TRUE,
-                  YTextSize=3,
-                  XTextSize = 8,
-                  CaptionJustify=0,
-                  CaptionTextSize=10,
-                  LineThickness=0.8) +
-  facet_wrap(~eye, nrow=2, scales="fixed") +
-  theme(plot.margin=margin(0.5, 0.5, 0.5, 0.5, "cm"),
-        strip.text = element_text(face="bold"))
-ggsave("features_ranked.png", width=8, height=7, units="in", bg="white")
+                  Title           = NULL, 
+                  ThemeChoice     = "wsj",
+                  Caption         = "Absolute beta vs refractive quantile",
+                  SubTitle        = NULL,
+                  WiderLabels     = TRUE,
+                  YTextSize       = 3,
+                  XTextSize       = 8,
+                  CaptionJustify  = 0,
+                  CaptionTextSize = 10,
+                  LineThickness   = 0.8) +
+  facet_wrap(~eye, nrow = 2, scales = "fixed") +
+  theme(plot.margin = margin(0.5, 0.5, 0.5, 0.5, "cm"),
+        strip.text  = element_text(face = "bold"))
+ggsave("features_ranked.png", width = 8, height = 7, units = "in", bg = "white")
 
 
 
